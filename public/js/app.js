@@ -14,7 +14,7 @@
 			});
 		}
 
-		var socket = io.connect('http://localhost');
+		var socket = io.connect();
 
 		var auto_fire = {
 			mode: "",

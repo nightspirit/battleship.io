@@ -11,7 +11,8 @@ h4,
 h5 {
   color: #f2ebc7;
 }
-a {
+a,
+a:hover {
   color: #f2ebc7;
 }
 .shell {
