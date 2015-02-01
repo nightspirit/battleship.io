@@ -1,0 +1,15 @@
+{
+  "name": "battleship.io",
+  "version": "1.0.0",
+  "description": "socket.io driven battleship host",
+  "scripts": {
+		"start": "node server.js"
+  },
+  "author": "Po Chen Lin",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.11.1",
+    "lodash": "^3.0.1",
+    "socket.io": "^1.3.2"
+  }
+}

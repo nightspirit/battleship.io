@@ -1,0 +1,66 @@
+@text: #979c9c;
+@hilight: #f2ebc7;
+@warning: #962d3e;
+@bad: #348899;
+@bg: #343642;
+
+body{
+	font-family: 'Orbitron', sans-serif;
+	color:@text;
+	background: @bg;
+}
+
+h1,h2,h3,h4,h5{
+	color:@hilight;
+}
+
+a{
+	color:@hilight;
+}
+
+.shell{
+	height:520px;
+	.display{
+		padding-left:43px;
+		max-height:480px;
+		overflow-y: hidden;
+
+		ul{
+			padding:0;
+			margin:0;
+		}
+
+		li{
+			padding:0;
+			list-style: none;
+			padding:6px 0;
+			
+			&.system{
+				color:@hilight;
+			}
+			&.error{
+				color:@warning;
+			}
+			
+		}
+	}
+
+	.input-group-addon,.form-control{
+		border: 0;
+		border-radius:0;
+		background: none;
+		color:@hilight;
+		box-shadow:none;
+	}
+	.form-control:focus{
+		border:0;
+		box-shadow: none;
+	}
+}
+
+
+.copyright{
+	padding-top: 5em;
+	padding-bottom: 1em;
+	font-size:12px;
+}

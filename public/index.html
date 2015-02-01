@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Orbitron:400,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/main.css">
+		<script src="https://cdn.socket.io/socket.io-1.3.2.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.2/angular.min.js"></script>
+		<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script src="/js/app.js"></script>
+		<script src="/js/scrollglue.js"></script>
+	</head>
+	<body ng-app="app">
+		<div class="container">
+			<h1>BATTLESHIP.io</h1>
+			<div class="row">
+				<div class="col-sm-7 col-md-8">
+					<div class="shell" ng-controller="shellCtrl as vm">
+						<div class="display" scroll-glue>
+							<ul>
+								<li ng-repeat="m in vm.display"
+										ng-class="m.type">{{m.text}}</li>
+							</ul>
+						</div>
+						<form class="input-group" ng-submit="vm.enter()">
+							<span class="input-group-addon">></span>
+							<input type="text" class="form-control" ng-model="vm.input">
+						</form>
+					</div>
+				</div>
+				<div class="col-sm-5 col-md-4">
+					<h4>Commands</h3>
+					<ul>
+						<li>start - start a game</li>
+						<li>join - join the game if any</li>
+						<li>fast - fast deploy</li>
+						<li>auto - enable Auto fire</li>
+						<li>random - enable Random fire</li>
+					</ul>
+					<h4>Rules</h3>
+					<ul>
+						<li>One game per room</li>
+						<li>Coordinates format is [a-j0-9] i.g. e3</li>
+						<li>Space or comma separated when deploy</li>
+						<li>Carrier size : 5 slots</li>
+						<li>Battleship size : 4 slots</li>
+						<li>Submarine size : 4 slots</li>
+						<li>Cruiser size : 3 slots</li>
+						<li>Patrol Boat size : 2 slots</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<h3>Battleship.io CLI demo</h3>
+					<p>Battleship.io is a game host project powered by socket.io and node.js. This is a simple cli example demonstrate how the game host works.</p>
+					<p>For more detail, please visit <a href="https://github.com/nightspirit/battleship.io">github</a>.</p>
+				</div>
+				<div class="col-sm-6">
+					<h3>Hint:</h3>
+					<ul>
+						<li>Append #&lt;room name> after url will let you join other room.</li>
+						<li>If you sick of deploy your ship one by one, try "fast" deploy, which will deploy from a0-a4, b0-b3, c0-c3, d0-d2, e0-e1</li>
+						<li>If you sick of fire step by step, try "auto" or "random" fire, which will enable automation 'til death.</li>
+					</ul>
+				</div>
+			</div>
+			<div class="copyright">BATTLESHIP.IO IS OPEN-SOURCE (MIT) AND WRITTEN BY <a href="http://pofolio.cc">PO CHEN LIN</a></div>
+		</div>
+		<script>
+			$(function(){ $('input').focus(); });
+		</script>
+	</body>
+</html>
+
