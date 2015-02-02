@@ -151,3 +151,5 @@ socket.on('engage',function(res){
 */
 });
 ```
+## License
+MIT
