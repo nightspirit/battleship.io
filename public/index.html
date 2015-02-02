@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 	<head>
+		<title>Battleship.io</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href='http://fonts.googleapis.com/css?family=Orbitron:400,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/main.css">
@@ -40,8 +42,8 @@
 					<h4>Rules</h3>
 					<ul>
 						<li>One game per room</li>
-						<li>Coordinates format is [a-j0-9] i.g. e3</li>
-						<li>Space or comma separated when deploy</li>
+						<li>Coordinates is [a-j0-9] i.g. e3</li>
+						<li>Space or comma separated for deployment</li>
 						<li>Carrier size : 5 slots</li>
 						<li>Battleship size : 4 slots</li>
 						<li>Submarine size : 4 slots</li>
@@ -60,12 +62,12 @@
 					<h3>Hint:</h3>
 					<ul>
 						<li>Append #&lt;room name> after url will let you join other room.</li>
-						<li>If you sick of deploy your ship one by one, try "fast" deploy, which will deploy from a0-a4, b0-b3, c0-c3, d0-d2, e0-e1</li>
+						<li>If you sick of deploy your fleet one by one, try "fast" deploy, which will deploy your ships to these locations. [a0-a4, b0-b3, c0-c3, d0-d2, e0-e1]</li>
 						<li>If you sick of fire step by step, try "auto" or "random" fire, which will enable automation 'til death.</li>
 					</ul>
 				</div>
 			</div>
-			<div class="copyright">BATTLESHIP.IO IS OPEN-SOURCE (MIT) AND WRITTEN BY <a href="http://pofolio.cc">PO CHEN LIN</a></div>
+			<div class="copyright">BATTLESHIP.IO IS OPEN-SOURCE (MIT) AND CREATED BY <a href="http://pofolio.cc">PO CHEN LIN</a></div>
 		</div>
 		<script>
 			$(function(){ $('input').focus(); });

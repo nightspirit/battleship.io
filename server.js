@@ -121,10 +121,10 @@ io.on('connection', function (socket) {
 				});
 			}
 		}catch(err){
-			socket.emit('fired',{error:err});
+			socket.emit('fired',err);
 		}
 	});
 
 });
 
-server.listen(process.env.PORT || 3001);
+server.listen(process.env.PORT || 80);

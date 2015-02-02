@@ -14,7 +14,9 @@
 			});
 		}
 
-		var socket = io.connect();
+		var socket = io.connect({
+			reconnection : false
+		});
 
 		var auto_fire = {
 			mode: "",
@@ -179,7 +181,8 @@
 			}
 		});
 		socket.on('fired',function(res){
-			vm.output.push({type:"error",text:res.errordsdsd});
+			console.log(res);
+			vm.output.push({type:"error",text:res});
 		});
 		socket.on('engage',function(res){
 			console.log(res);
@@ -203,6 +206,8 @@
 				}
 			}
 		});
+		
+		// from ctrl
 		vm.command = function(input){
 			try{
 				switch(input){
@@ -232,7 +237,7 @@
 				}
 			}catch(err){
 				if(err == "BAD_COMMAND"){
-					vm.output.push({type:"bad",text:"bad command. try something else"});	
+					vm.output.push({type:"bad",text:"Bad command. Try something else."});	
 				}else{
 					vm.output.push({type:"error",text:err});
 				}
