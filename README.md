@@ -58,11 +58,11 @@ socket.on('engage',function(){...});
 ## Game actions
 ### 'start_game'
 ```js
-socket.('start_game'); // start game 
+socket.emit('start_game'); // start game 
 ```
 ### 'join_game'
 ```js
-socket.('join_game'); // join existing game 
+socket.emit('join_game'); // join existing game 
 ```
 ### 'deploy'
 ```js
