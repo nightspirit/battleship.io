@@ -55,7 +55,7 @@ socket.on('engage',function(){...});
 12. Server broadcast **"engage"** as engaging result each turn
 13. If any client's fleet all sunk, server broadcast  **"game_state"** as **"END"**
 
-## Game action
+## Game actions
 ### 'start_game'
 ```js
 socket.('start_game'); // start game 
@@ -149,6 +149,29 @@ socket.on('engage',function(res){
 		result:<HIT|MISS>
 	}
 */
+});
+```
+
+## Room actions / events
+###"rooms"
+```js
+socket.emit('rooms');
+socket.on('rooms',function(data){
+	// current live room ids
+});
+```
+### 'join_room' / 'room_joined'
+```js
+socket.emit('join_room',"<room name>");
+socket.on('room_joined',function(data){
+	// data = <room name>
+});
+```
+### 'in_room' 
+```js
+socket.emit('in_room');
+socket.on('in_room',function(data){
+	// all in room user ids
 });
 ```
 ## License
