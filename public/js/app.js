@@ -124,7 +124,7 @@
 					state.reset();
 					break;
 				case 'DEPLOY':
-					var msg = data.players[0].id + " vs " + data.players[0].id;
+					var msg = data.players[0].id + " vs " + data.players[1].id;
 					vm.output.push({type:"system",text:msg});
 					if(state.in_game){
 						prompt_deploy.show();
