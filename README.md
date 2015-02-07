@@ -32,12 +32,12 @@ socket.on('connected',function(data){
 
 // subscribe to different events to make your client works
 socket.on('room_joined',function(){...});
-socket.on('game_state',function(){...}); 
-socket.on('game_joined',function(){...}); 
-socket.on('room_joined',function(){...}); 
-socket.on('deployed',function(){...}); 
-socket.on('fired',function(){...}); 
-socket.on('engage',function(){...}); 
+socket.on('game_state',function(){...});
+socket.on('game_joined',function(){...});
+socket.on('room_joined',function(){...});
+socket.on('deployed',function(){...});
+socket.on('fired',function(){...});
+socket.on('engage',function(){...});
 ```
 
 ## Game flow
@@ -58,11 +58,11 @@ socket.on('engage',function(){...});
 ## Game actions
 ### 'start_game'
 ```js
-socket.emit('start_game'); // start game 
+socket.emit('start_game'); // start game
 ```
 ### 'join_game'
 ```js
-socket.emit('join_game'); // join existing game 
+socket.emit('join_game'); // join existing game
 ```
 ### 'deploy'
 ```js
@@ -105,7 +105,7 @@ socket.on('game_state',function(res){
 	// END - game over
 
 	// Additional data
-	// when DEPLOY 
+	// when DEPLOY
 	// res.players = [{id:<socket id>,ready:<bool>},{...}]
 	// when ENGAGE
 	// res.first = <id> is first strike player socket id
@@ -121,7 +121,7 @@ socket.on('deployed',function(res){
 	// OK - success
 	// ERR_NO_GAME - no ongoing game in room
 	// ERR_STATE - not in DEPLOY state
-	// ERR_PLAYER - not the participant 
+	// ERR_PLAYER - not the participant
 	// ERR_ALREADY - already deployed
 	// ERR_TYPE - ship key is not correct
 	// ERR_FORMAT - coordinates are not correct
@@ -143,7 +143,7 @@ socket.on('engage',function(res){
 /*
 	res:
 	{
-		offence:<id>, 
+		offence:<id>,
 		defence:<id>,
 		target:<coordinates>,
 		result:<HIT|MISS>
@@ -164,10 +164,11 @@ socket.on('rooms',function(data){
 ```js
 socket.emit('join_room',"<room name>");
 socket.on('room_joined',function(data){
-	// data = <room name>
+	// data = {name:<room name>,game_state:<current game state>}
+	// game_state : ""||"INIT"||"DEPLOY"||"ENGAGE"||"END"
 });
 ```
-### 'in_room' 
+### 'in_room'
 ```js
 socket.emit('in_room');
 socket.on('in_room',function(data){

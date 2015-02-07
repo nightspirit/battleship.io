@@ -1,5 +1,5 @@
 (function(){
-	function msgFactory($timeout){		
+	function msgFactory($timeout){
 		var vm = this;
 		function $t(fn){ return $timeout(fn,0)}
 
@@ -96,13 +96,13 @@
 				auto_fire.reset();
 			}
 		}
-		
+
 		// socket event
 		socket.on('connected',function(data){
 			// socket connected
 			console.log(data);
 			var hash = window.location.hash;
-			
+
 			socket.emit('join_room',hash||'demo');
 		});
 		socket.on('rooms', function (data) {
@@ -113,7 +113,7 @@
 		});
 		socket.on('room_joined', function (data) {
 			console.log(data);
-			vm.output.push({msg:"system",text:"You are in room: "+data});
+			vm.output.push({msg:"system",text:"You are in room: "+data.name});
 		});
 		socket.on('game_state',function(data){
 			console.log(data);
@@ -206,7 +206,7 @@
 				}
 			}
 		});
-		
+
 		// from ctrl
 		vm.command = function(input){
 			try{
@@ -237,7 +237,7 @@
 				}
 			}catch(err){
 				if(err == "BAD_COMMAND"){
-					vm.output.push({type:"bad",text:"Bad command. Try something else."});	
+					vm.output.push({type:"bad",text:"Bad command. Try something else."});
 				}else{
 					vm.output.push({type:"error",text:err});
 				}

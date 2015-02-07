@@ -2,9 +2,9 @@
   "name": "battleship.io",
   "version": "1.0.0",
   "description": "socket.io driven battleship host",
-	"private": true,
+  "private": true,
   "scripts": {
-		"start": "node server.js"
+    "start": "node server.js"
   },
   "author": "Po Chen Lin",
   "license": "MIT",
