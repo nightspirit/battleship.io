@@ -22,7 +22,7 @@ for your javascript app
 ```js
 var socket = io.connect();
 // Establish an io socket instance which connect to localhost
-// or io.connect("http://battleship.io.pofolio.cc"); which is my public server.
+// or io.connect("battleship.io.pofolio.cc"); which is my public server.
 
 // subscribe 'connected' event
 socket.on('connected',function(data){

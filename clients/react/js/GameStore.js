@@ -237,10 +237,14 @@ var GameStore = Fluxxor.createStore({
       this.emit("change");
       this.random_fire();
     } else {
+      var last_fire = this.opmap.objs[this.opmap.objs.length-1]
       var ph = {
         type: 'boom',
         pos: ['a0'],
         ph: 1
+      }
+      if(this.opmap.objs.length){
+        ph.pos = this.opmap.objs[this.opmap.objs.length-1].pos;
       }
       this.opmap.ph = ph;
       this.emit("change");
