@@ -12,6 +12,7 @@ By default, it will create a game server on http://localhost and listen to port 
 
 ## Example
 [CLI example](http://battleship.io.pofolio.cc/)
+
 [GUI in ReactJS](http://battleship.io.pofolio.cc/react)
 
 ## How to use on client side
