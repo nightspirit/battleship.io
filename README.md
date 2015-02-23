@@ -15,6 +15,8 @@ By default, it will create a game server on http://localhost and listen to port 
 
 [GUI in ReactJS](http://battleship.io.pofolio.cc/react)
 
+[GUI in Backbone](http://battleship.io.pofolio.cc/backbone)
+
 ## How to use on client side
 include lib in your html
 ```html
