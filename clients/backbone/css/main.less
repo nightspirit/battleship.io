@@ -1,0 +1,215 @@
+// out: ./main.css, compress: true
+@import url(http://fonts.googleapis.com/css?family=Orbitron:400,700);
+
+@text: #333;
+@hilight: #1695A3;
+@warning: #EB7F00;
+
+body{
+  font-family: 'Orbitron', sans-serif;
+  color:@text;
+}
+
+h1,h2,h3,h4,h5,a{
+  color:@hilight;
+}
+
+.btns{
+  padding-top:1em;
+  min-height:48px;
+
+  .btn{
+    margin-right:0.5em;
+  }
+}
+
+.sysmsg{
+  color:@warning;
+}
+
+.copyright{
+  padding-top: 5em;
+  padding-bottom: 1em;
+  font-size:12px;
+}
+
+@unit:40px;
+
+.map{
+  position: relative;
+
+  table{
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    td{
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      width:@unit;
+      height:@unit;
+    }
+  }
+
+  .inv table{
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:2;
+    opacity:0;
+  }
+
+
+  .boom{
+    display:inline-block;
+    width:@unit;
+    height:@unit;
+    position: absolute;
+    z-index:1;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:contain;
+
+    &.ph{
+      border-box:box-sizing;
+      border:5px dashed #ccc;
+    }
+
+    &.hit{
+      opacity:0.5;
+      background-image:url('../images/hit.png');
+    }
+
+    &.miss{
+      opacity:0.5;
+      background-image:url('../images/miss.png');
+
+    }
+  }
+
+  .ship{
+    display: inline-block;
+    height: @unit;
+    position: absolute;
+    z-index:1;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:contain;
+
+    &.ph{
+
+      &.overlap:after{
+          display:block;
+          width:100%;
+          height:100%;
+          content:'';
+          background:red;
+          opacity:0.5;
+      }
+    }
+
+    &.carrier{
+      background-image:url('../images/carrier.png');
+    }
+    &.battleship{
+      background-image:url('../images/battleship.png');
+    }
+    &.submarine{
+      background-image:url('../images/submarine.png');
+    }
+    &.cruiser{
+      background-image:url('../images/cruiser.png');
+    }
+    &.patrolboat{
+      background-image:url('../images/patrolboat.png');
+    }
+
+
+    /* size and vertical transform */
+    &.s2{
+      width:@unit*2;
+      &.v{
+        transform: rotate(90deg) translate(@unit/2,@unit/2);
+      }
+    }
+    &.s3{
+      width:@unit*3;
+      &.v{
+        transform: rotate(90deg) translate(@unit,@unit);
+      }
+    }
+    &.s4{
+      width:@unit*4;
+      &.v{
+        transform: rotate(90deg) translate(@unit*3/2,@unit*3/2);
+      }
+    }
+    &.s5{
+      width:@unit*5;
+      &.v{
+        transform: rotate(90deg) translate(@unit*2,@unit*2);
+      }
+    }
+  }
+
+  /* positioning */
+  .c0{
+    left:0;
+  }
+  .c1{
+    left:@unit*1;
+  }
+  .c2{
+    left:@unit*2;
+  }
+  .c3{
+    left:@unit*3;
+  }
+  .c4{
+    left:@unit*4;
+  }
+  .c5{
+    left:@unit*5;
+  }
+  .c6{
+    left:@unit*6;
+  }
+  .c7{
+    left:@unit*7;
+  }
+  .c8{
+    left:@unit*8;
+  }
+  .c9{
+    left:@unit*9;
+  }
+  .ra{
+    top:0;
+  }
+  .rb{
+    top:@unit*1;
+  }
+  .rc{
+    top:@unit*2;
+  }
+  .rd{
+    top:@unit*3;
+  }
+  .re{
+    top:@unit*4;
+  }
+  .rf{
+    top:@unit*5;
+  }
+  .rg{
+    top:@unit*6;
+  }
+  .rh{
+    top:@unit*7;
+  }
+  .ri{
+    top:@unit*8;
+  }
+  .rj{
+    top:@unit*9;
+  }
+}

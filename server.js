@@ -16,6 +16,9 @@ app.get('/', function(req, res) {
 app.get('/react', function(req, res) {
   res.sendFile(path.join(__dirname + '/clients/react/index.html'));
 });
+app.get('/backbone', function(req, res) {
+  res.sendFile(path.join(__dirname + '/clients/backbone/index.html'));
+});
 
 
 
