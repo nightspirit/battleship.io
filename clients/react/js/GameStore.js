@@ -197,7 +197,7 @@ var GameStore = Fluxxor.createStore({
     var target;
     do {
       target = pool.charAt(Math.floor(Math.random() * pool.length)) + Math.floor(Math.random() * 10);
-    } while (_.chain(objs).pluck('pos').flatten().indexOf(target) >= 0);
+    } while (_.chain(objs).pluck('pos').flatten().indexOf(target).value() >= 0);
     if (!!this.socket && !!target)
       this.socket.emit('fire', target);
   },
