@@ -1,4 +1,4 @@
-Grid = React.createClass({
+var Grid = React.createClass({
   render: function(){
     var cls = this.props.className;
     var arrC = [0,1,2,3,4,5,6,7,8,9];

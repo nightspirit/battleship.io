@@ -6,32 +6,26 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var Game = require('./game.js');
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'clients')));
-
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/public/index.html'));
-});
-
-app.get('/react', function(req, res) {
-  res.sendFile(path.join(__dirname + '/clients/react/index.html'));
-});
-app.get('/backbone', function(req, res) {
-  res.sendFile(path.join(__dirname + '/clients/backbone/index.html'));
-});
-
-
-
 var games = {};
 
 io.on('connection', function(socket) {
   console.log('socket connected:%s', socket.id);
   socket.room = ""; // set room to socket session
   socket.emit('connected', socket.id);
-
+  
+  // heartbeat
+  socket.idle = null;
+  socket.heartbeat = function(){
+    clearTimeout(socket.idle);
+    socket.idle = setTimeout(function(){
+      socket.disconnect('true');
+    },120000);
+  }
+  
   // bind event
   socket
   .on('disconnect', function() {
+    console.log('disconnect');
     var game = games[socket.room];
     if (!!game) {
       if (!!_.find(game.players, {
@@ -43,19 +37,23 @@ io.on('connection', function(socket) {
         });
       }
     }
+    socket.heartbeat();
   })
   .on('rooms', function() {
     socket.emit('rooms', io.sockets.adapter.rooms);
+    socket.heartbeat();
   })
   .on('join_room', function(room_name) {
     socket.join(room_name);
     socket.room = room_name;
     var res = {name:room_name};
     res.game_state = "";
-    if(!!games[socket.room])
-    res.game_state = games[socket.room].state;
+    if(!!games[socket.room]){
+      res.game_state = games[socket.room].state;
+    }
     socket.emit('room_joined',res);
     io.to(socket.room).emit('player_joined', socket.id);
+    socket.heartbeat();
   })
   .on('in_room', function(room_name) {
     var room = room_name || socket.room;
@@ -80,10 +78,10 @@ io.on('connection', function(socket) {
       });
 
       socket.emit('game_joined', result);
-
     } catch (err) {
       socket.emit('game_joined', err);
     }
+    socket.heartbeat();
   })
   .on('join_game', function() {
     try {
@@ -109,6 +107,7 @@ io.on('connection', function(socket) {
     } catch (err) {
       socket.emit('game_joined', err);
     }
+    socket.heartbeat();
   })
   .on('deploy', function(fleet) {
     try {
@@ -129,6 +128,7 @@ io.on('connection', function(socket) {
     } catch (err) {
       socket.emit('deployed', err);
     }
+    socket.heartbeat();
   })
   .on('fire', function(target) {
     try {
@@ -155,8 +155,24 @@ io.on('connection', function(socket) {
     } catch (err) {
       socket.emit('fired', err);
     }
+    socket.heartbeat();
   });
+  
+  socket.heartbeat();
+});
 
+// express router
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'clients')));
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/index.html'));
+});
+app.get('/react', function(req, res) {
+  res.sendFile(path.join(__dirname + '/clients/react/index.html'));
+});
+app.get('/backbone', function(req, res) {
+  res.sendFile(path.join(__dirname + '/clients/backbone/index.html'));
 });
 
 server.listen(process.env.PORT || 80);
