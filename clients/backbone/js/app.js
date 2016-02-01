@@ -310,114 +310,117 @@ $(function() {
   // socket event binding
   socket
     .on('connected', function(data) {
-      // join your own room by emit the 'join_room' and your specific room name
-      var hash = window.location.hash;
-      socket.emit('join_room', hash || 'demo-Backbone');
-    })
+    // join your own room by emit the 'join_room' and your specific room name
+    var hash = window.location.hash;
+    socket.emit('join_room', hash || 'demo-Backbone');
+  })
     .on('room_joined', function(data) {
-      console.log('[socket]room_joined:', data);
-      game.set({
-        sys_message: "You are in room " + data.name,
-        game_state: data.game_state
-      });
-    })
+    console.log('[socket]room_joined:', data);
+    game.set({
+      sys_message: "You are in room " + data.name,
+      game_state: data.game_state
+    });
+  })
     .on('game_state', function(data) {
-      console.log('[socket]game_state:', data);
-      switch (data.state) {
-        case 'INIT':
-          reset();
-          game.set({
-            sys_message: "Game initiated.",
-            game_state: data.state
-          });
-          break;
-        case 'DEPLOY':
-          var msg = data.players[0].id + " vs " + data.players[1].id;
-          game.set({
-            sys_message: msg,
-            game_state: data.state
-          });
-          if (game.get('is_player')) {
-            ui_deploy();
-          }
-          break;
-        case 'ENGAGE':
-          if (game.get('is_player')) {
-            if (socket.id == data.first) {
-              game.set({
-                my_turn: true,
-                sys_message: "Your turn. Ready to fire.",
-                game_state: data.state
-              });
-              ui_aim();
-            } else {
-              game.set({
-                my_turn: false,
-                sys_message: "Opponenet's turn",
-                game_state: data.state
-              });
-            }
-          }
-          break;
-        case 'END':
-          reset_ph();
-          if (!!data.winner) {
-            if (socket.id == data.winner) {
-              msg = "You win!";
-            } else if (socket.id == data.loser) {
-              msg = "You lose!";
-            } else {
-              msg = data.winner + " win!";
-            }
-          } else {
-            msg = "Game has terminated."
-          }
-          game.set({
-            sys_message: msg,
-            game_state: data.state
-          });
-          break;
-      }
-    })
-    .on('game_joined', function(data) {
-      console.log('[socket]game_joined:', data);
-      if (data == "OK") {
+    console.log('[socket]game_state:', data);
+    switch (data.state) {
+      case 'INIT':
+        reset();
         game.set({
-          is_player: true
+          sys_message: "Game initiated.",
+          game_state: data.state
+        });
+        break;
+      case 'DEPLOY':
+        var msg = data.players[0].id + " vs " + data.players[1].id;
+        game.set({
+          sys_message: msg,
+          game_state: data.state
+        });
+        if (game.get('is_player')) {
+          ui_deploy();
+        }
+        break;
+      case 'ENGAGE':
+        if (game.get('is_player')) {
+          if (socket.id == data.first) {
+            game.set({
+              my_turn: true,
+              sys_message: "Your turn. Ready to fire.",
+              game_state: data.state
+            });
+            ui_aim();
+          } else {
+            game.set({
+              my_turn: false,
+              sys_message: "Opponenet's turn",
+              game_state: data.state
+            });
+          }
+        }
+        break;
+      case 'END':
+        reset_ph();
+        if (!!data.winner) {
+          if (socket.id == data.winner) {
+            msg = "You win!";
+          } else if (socket.id == data.loser) {
+            msg = "You lose!";
+          } else {
+            msg = data.winner + " win!";
+          }
+        } else {
+          msg = "Game has terminated."
+        }
+        game.set({
+          sys_message: msg,
+          game_state: data.state
+        });
+        break;
+    }
+  })
+    .on('game_joined', function(data) {
+    console.log('[socket]game_joined:', data);
+    if (data == "OK") {
+      game.set({
+        is_player: true
+      });
+    }
+  })
+    .on('deployed', function(data) {
+    console.log('[socket]deployed:', data);
+  })
+    .on('fired', function(data) {
+    console.log('[socket]fired:', data);
+  })
+    .on('engage', function(data) {
+    console.log('[socket]engage:', data);
+    // put boom into both map
+    if (game.get("is_player")) {
+      var boom = {
+        type: 'boom',
+        pos: [data.target],
+        hit: (data.result == "HIT")
+      };
+      if (socket.id == data.defence) {
+        myObjs.add(new ObjModel(boom));
+        game.set({
+          my_turn: true,
+          sys_message: "Your turn. Ready to fire."
+        });
+        ui_aim();
+      } else {
+        opObjs.add(new ObjModel(boom));
+        game.set({
+          my_turn: false,
+          sys_message: "Opponenet's turn"
         });
       }
-    })
-    .on('deployed', function(data) {
-      console.log('[socket]deployed:', data);
-    })
-    .on('fired', function(data) {
-      console.log('[socket]fired:', data);
-    })
-    .on('engage', function(data) {
-      console.log('[socket]engage:', data);
-      // put boom into both map
-      if (game.get("is_player")) {
-        var boom = {
-          type: 'boom',
-          pos: [data.target],
-          hit: (data.result == "HIT")
-        };
-        if (socket.id == data.defence) {
-          myObjs.add(new ObjModel(boom));
-          game.set({
-            my_turn: true,
-            sys_message: "Your turn. Ready to fire."
-          });
-          ui_aim();
-        } else {
-          opObjs.add(new ObjModel(boom));
-          game.set({
-            my_turn: false,
-            sys_message: "Opponenet's turn"
-          });
-        }
-      }
-    });
+    }
+  })
+    .on('disconnect',function(){
+    alert('You are disconnectd!');
+  });
 
   // actions
   function reset_ph() {

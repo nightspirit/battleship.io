@@ -9,10 +9,9 @@ var Game = require('./game.js');
 var games = {};
 
 io.on('connection', function(socket) {
-  console.log('socket connected:%s', socket.id);
+  console.log('%s connected', socket.id);
   socket.room = ""; // set room to socket session
-  socket.emit('connected', socket.id);
-  
+  socket.emit('connected', socket.id.replace('/#',''));
   // heartbeat
   socket.idle = null;
   socket.heartbeat = function(){
@@ -25,11 +24,11 @@ io.on('connection', function(socket) {
   // bind event
   socket
   .on('disconnect', function() {
-    console.log('disconnect');
+    console.log('%s disconnected', socket.id);
     var game = games[socket.room];
     if (!!game) {
       if (!!_.find(game.players, {
-        id: socket.id
+        id: socket.id.replace('/#','')
       })) {
         games[socket.room] = null;
         io.to(socket.room).emit('game_state', {
@@ -52,7 +51,7 @@ io.on('connection', function(socket) {
       res.game_state = games[socket.room].state;
     }
     socket.emit('room_joined',res);
-    io.to(socket.room).emit('player_joined', socket.id);
+    io.to(socket.room).emit('player_joined', socket.id.replace('/#',''));
     socket.heartbeat();
   })
   .on('in_room', function(room_name) {
@@ -64,7 +63,7 @@ io.on('connection', function(socket) {
       games[socket.room] = new Game();
       var game = games[socket.room];
       // TRY JOIN
-      var result = game.join(socket.id);
+      var result = game.join(socket.id.replace('/#',''));
       if (result !== 'OK') throw result;
 
       io.to(socket.room).emit('game_state', {
@@ -89,7 +88,7 @@ io.on('connection', function(socket) {
       var game = games[socket.room];
       if (!game) throw "ERR_NO_GAME";
       // TRY JOIN
-      var result = game.join(socket.id);
+      var result = game.join(socket.id.replace('/#',''));
       if (result !== 'OK') throw result;
 
       socket.emit('game_joined', result);
@@ -114,7 +113,7 @@ io.on('connection', function(socket) {
       var game = games[socket.room];
       if (!game) throw "ERR_NO_GAME";
       // TRY DEPLOY
-      var result = game.deploy(socket.id, fleet);
+      var result = game.deploy(socket.id.replace('/#',''), fleet);
       if (result !== 'OK') throw result;
 
       socket.emit('deployed', result);
@@ -135,7 +134,7 @@ io.on('connection', function(socket) {
       var game = games[socket.room];
       if (!game) throw "ERR_NO_GAME";
       // TRY fire
-      var result = game.fire(socket.id, target);
+      var result = game.fire(socket.id.replace('/#',''), target);
       if (!/HIT|MISS/.test(result)) throw result;
 
       io.to(socket.room).emit('engage', {

@@ -56,100 +56,104 @@ var GameStore = Fluxxor.createStore({
     var store = this;
     socket
       .on('connected', function(data) {
-        // join your own room by emit the 'join_room' and your specific room name
-        var hash = window.location.hash;
-        socket.emit('join_room', hash || 'demo-react');
-      })
+      // join your own room by emit the 'join_room' and your specific room name
+      var hash = window.location.hash;
+      socket.emit('join_room', hash || 'demo-react');
+    })
       .on('room_joined', function(data) {
-        console.log('[socket]room_joined:', data);
-        store.sys_message = "You are in room " + data.name;
-        store.game_state = data.game_state;
-        store.emit('change');
-      })
+      console.log('[socket]room_joined:', data);
+      store.sys_message = "You are in room " + data.name;
+      store.game_state = data.game_state;
+      store.emit('change');
+    })
       .on('game_state', function(data) {
-        console.log('[socket]game_state:', data);
-        store.game_state = data.state;
-        switch (data.state) {
-          case 'INIT':
-            store.reset();
-            store.sys_message = "Game initiated.";
-            store.emit('change');
-            break;
-          case 'DEPLOY':
-            var msg = data.players[0].id + " vs " + data.players[1].id;
-            store.sys_message = msg;
-            if (store.is_player) {
-              store.ui_deploy();
-            } else {
-              store.emit("change");
-            }
-            break;
-          case 'ENGAGE':
-            if (store.is_player) {
-              if (socket.id == data.first) {
-                store.my_turn = true;
-                store.sys_message = "Your turn. Ready to fire.";
-                store.ui_aim();
-              } else {
-                store.my_turn = false;
-                store.sys_message = "Opponenet's turn";
-                store.emit("change");
-              }
-            }
-            break;
-          case 'END':
-            store.reset_ph();
-            if (!!data.winner) {
-              if (socket.id == data.winner) {
-                msg = "You win!";
-              } else if (socket.id == data.loser) {
-                msg = "You lose!";
-              } else {
-                msg = data.winner + " win!";
-              }
-            } else {
-              msg = "Game has terminated."
-            }
-            store.sys_message = msg
-            store.emit("change");
-            break;
-        }
-      })
-      .on('game_joined', function(data) {
-        console.log('[socket]game_joined:', data);
-        if (data == "OK") {
-          store.is_player = true;
+      console.log('[socket]game_state:', data);
+      store.game_state = data.state;
+      switch (data.state) {
+        case 'INIT':
+          store.reset();
+          store.sys_message = "Game initiated.";
           store.emit('change');
-        }
-      })
-      .on('deployed', function(data) {
-        console.log('[socket]deployed:', data);
-      })
-      .on('fired', function(data) {
-        console.log('[socket]fired:', data);
-      })
-      .on('engage', function(data) {
-        console.log('[socket]engage:', data);
-        // put boom into both map
-        if (store.is_player) {
-          var boom = {
-            type: 'boom',
-            pos: [data.target],
-            hit: (data.result == "HIT")
-          };
-          if (socket.id == data.defence) {
-            store.mymap.objs.push(boom);
-            store.my_turn = true;
-            store.sys_message = "Your turn. Ready to fire.";
-            store.ui_aim();
+          break;
+        case 'DEPLOY':
+          var msg = data.players[0].id + " vs " + data.players[1].id;
+          store.sys_message = msg;
+          if (store.is_player) {
+            store.ui_deploy();
           } else {
-            store.opmap.objs.push(boom);
-            store.my_turn = false;
-            store.sys_message = "Opponenet's turn";
             store.emit("change");
           }
+          break;
+        case 'ENGAGE':
+          if (store.is_player) {
+            console.log(socket.id);
+            if (socket.id == data.first) {
+              store.my_turn = true;
+              store.sys_message = "Your turn. Ready to fire.";
+              store.ui_aim();
+            } else {
+              store.my_turn = false;
+              store.sys_message = "Opponenet's turn";
+              store.emit("change");
+            }
+          }
+          break;
+        case 'END':
+          store.reset_ph();
+          if (!!data.winner) {
+            if (socket.id == data.winner) {
+              msg = "You win!";
+            } else if (socket.id == data.loser) {
+              msg = "You lose!";
+            } else {
+              msg = data.winner + " win!";
+            }
+          } else {
+            msg = "Game has terminated."
+          }
+          store.sys_message = msg
+          store.emit("change");
+          break;
+      }
+    })
+      .on('game_joined', function(data) {
+      console.log('[socket]game_joined:', data);
+      if (data == "OK") {
+        store.is_player = true;
+        store.emit('change');
+      }
+    })
+      .on('deployed', function(data) {
+      console.log('[socket]deployed:', data);
+    })
+      .on('fired', function(data) {
+      console.log('[socket]fired:', data);
+    })
+      .on('engage', function(data) {
+      console.log('[socket]engage:', data);
+      // put boom into both map
+      if (store.is_player) {
+        var boom = {
+          type: 'boom',
+          pos: [data.target],
+          hit: (data.result == "HIT")
+        };
+        if (socket.id == data.defence) {
+          store.mymap.objs.push(boom);
+          store.my_turn = true;
+          store.sys_message = "Your turn. Ready to fire.";
+          store.ui_aim();
+        } else {
+          store.opmap.objs.push(boom);
+          store.my_turn = false;
+          store.sys_message = "Opponenet's turn";
+          store.emit("change");
         }
-      });
+      }
+    })
+      .on('disconnect',function(){
+      alert('You are disconnectd!');
+    });
     this.socket = socket;
   },
   reset_ph: function() {
