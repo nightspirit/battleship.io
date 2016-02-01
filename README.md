@@ -10,7 +10,7 @@ $ npm start
 ```
 By default, it will create a game server on http://localhost and listen to port 80
 
-## Example
+## Example (temporary not available)
 [CLI example](http://battleship.io.pofolio.cc/)
 
 [GUI in ReactJS](http://battleship.io.pofolio.cc/react)
