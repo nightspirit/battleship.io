@@ -10,7 +10,7 @@ $ npm start
 ```
 By default, it will create a game server on http://localhost and listen to port 80
 
-## Example (temporary not available)
+## Example
 [CLI example](http://battleship.io.pofolio.cc/)
 
 [GUI in ReactJS](http://battleship.io.pofolio.cc/react)
@@ -20,7 +20,7 @@ By default, it will create a game server on http://localhost and listen to port 
 ## How to use on client side
 include lib in your html
 ```html
-<script src="https://cdn.socket.io/socket.io-1.3.2.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 ```
 for your javascript app
 ```js
