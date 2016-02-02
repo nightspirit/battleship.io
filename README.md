@@ -151,6 +151,7 @@ socket.on('engage',function(res){
 		defence:<id>,
 		target:<coordinates>,
 		result:<HIT|MISS>
+		sunk:<ship.type> // if any ship sunk, otherwise empty string
 	}
 */
 });
