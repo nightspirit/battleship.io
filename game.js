@@ -153,8 +153,13 @@ Game.prototype.fire = function(id,target){
 
     var op = this.turn?0:1;
     var op_fleet = this.players[op].fleet;
+    self.sunk = "";
     var hit = op_fleet.filter(function(ship){
-      return ship.hit(target);
+      var h = ship.hit(target);
+      if(h && ship.dead){
+        self.sunk = ship.type;
+      }
+      return h;
     }).length;
 
     if(hit){

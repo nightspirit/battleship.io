@@ -141,7 +141,8 @@ io.on('connection', function(socket) {
         offence: game.players[game.turn ? 0 : 1].id,
         defence: game.players[game.turn].id,
         target: target,
-        result: result
+        result: result,
+        sunk: game.sunk
       });
 
       if (game.state == "END") {
